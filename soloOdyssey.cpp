@@ -109,12 +109,12 @@ void SoLoOdyssey::ai() {}
 void SoLoOdyssey::collisions()
 {
     VECTOR2 collisionVector;
-    for (int i = 0; i < placeholder.getActiveProjectiles(); ++i)
+    for (int i = 0; i < stage1.getActiveProjectiles(); ++i)
     {
         if (projectiles[i]->collidesWith(playerShip, collisionVector))
         {
             projectiles[i]->setActive(false);
-            placeholder.setActiveProjectiles(placeholder.getActiveProjectiles() - 1);
+            stage1.setActiveProjectiles(stage1.getActiveProjectiles() - 1);
             playerShip.setHealth(playerShip.getHealth() - projectiles[i]->getProjectileDamage());
             break;
         }

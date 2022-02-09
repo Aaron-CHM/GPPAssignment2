@@ -45,8 +45,8 @@ private:
     TextureManager stage3Texture;    //stage3 texture 
 
     Stage1 stage1;
-    Stage2 stage2;
-    Stage3 stage3;
+    //Stage2 stage2;
+    //Stage3 stage3;
 
     Projectile* projectiles[MAX_PROJECTILES]; //pointer to projectiles;
     Projectile tempProjectiles[MAX_PROJECTILES]; //for initializing projectiles

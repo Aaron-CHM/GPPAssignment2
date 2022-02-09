@@ -14,9 +14,6 @@ Stage1::Stage1()
 	spriteData.height = stage1NS::HEIGHT;
 	spriteData.x = stage1NS::X;                   // location on screen
 	spriteData.y = stage1NS::Y;
-	frameDelay = stage1NS::ANIMATION_DELAY;
-	startFrame = stage1NS::START_FRAME;     // first frame of stage1 animation
-	endFrame = stage1NS::END_FRAME;     // last frame of stage1 animation
 	spriteData.rect.bottom = stage1NS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = stage1NS::WIDTH;
 	currentFrame = startFrame;
@@ -29,10 +26,8 @@ Stage1::Stage1()
 	waveValue = Wave::wave1;
 	activeProjectiles = 0;
 	spawnBool = true;
-	velocity.x = 0;                             // velocity X
-	velocity.y = 0;                             // velocity Y
-
-
+	velocity.x = 0;
+	velocity.y = 0;
 
 }
 
@@ -52,10 +47,10 @@ void Stage1::update(float frameTime, Projectile* projectiles[], Player ship)
 
 	Entity::update(frameTime);
 	updateAbilities(projectiles, frameTime);
-	spawnProjectilesAll(projectiles, frameTime);
+	spawnProjectiles(projectiles, frameTime, ship);
 
-	spriteData.x += frameTime * velocity.x;         // move boss along X 
-	spriteData.y += frameTime * velocity.y;         // move boss along Y
+	spriteData.x += frameTime * velocity.x;
+	spriteData.y += frameTime * velocity.y;
 
 	// Bounce off walls
 	if (spriteData.x > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    // if hit right screen edge
@@ -98,98 +93,28 @@ void Stage1::projectileInitialization(Projectile* projectile)//Initialize projec
 	projectile->setMass(300.0f);
 }
 
-void Stage1::setupProjectileLeftRight(Projectile* projectile1, Projectile* projectile2) //setup projectiles velocity
+void Stage1::setupProjectile(Projectile* projectile, Player ship) //setup projectiles to shoot towards the player
 {
-	projectile1->setX(getX());
-	projectile1->setY(getY());
-	projectile2->setX(getX());
-	projectile2->setY(getY());
+	projectile->setX(getX());
+	projectile->setY(getY());
+	D3DXVECTOR2 shipVector = VECTOR2(ship.getX(), ship.getY());
+	D3DXVECTOR2 bossVector = VECTOR2(getX(), getY());
+	D3DXVECTOR2 lineVector = VECTOR2(getX() - 1, getY());
+	D3DXVECTOR2 horizontalVector = VECTOR2(lineVector - bossVector);
+	D3DXVECTOR2 diagonalVector = VECTOR2(shipVector - bossVector);
+	graphics->Vector2Normalize(&horizontalVector);
+	graphics->Vector2Normalize(&diagonalVector);
+	float dotProduct = graphics->Vector2Dot(&horizontalVector, &diagonalVector);
+	float angle = acos(dotProduct);
+	projectileAngle = (360 * (PI / 180)) - angle;
 
-	D3DXVECTOR2 velocity1 = VECTOR2(-getX(), 0);
-	D3DXVECTOR2 velocity2 = VECTOR2(getX(), 0);
 
-	projectile1->setVelocity(velocity1 * projectileSpeed);
-	projectile2->setVelocity(velocity2 * projectileSpeed);
-
+	D3DXVECTOR2 velocity = VECTOR2(ship.getX() - getX(), ship.getY() - getY());
+	projectile->setVelocity(velocity * projectileSpeed);
+	projectile->setAngle(projectileAngle);
 }
 
-
-
-void Stage1::setupProjectileUpDownLeftRight(Projectile* projectile1, Projectile* projectile2, Projectile* projectile3, Projectile* projectile4) //setup projectiles velocity 
-{
-	projectile1->setX(getX());
-	projectile1->setY(getY());
-	projectile2->setX(getX());
-	projectile2->setY(getY());
-	projectile3->setX(getX());
-	projectile3->setY(getY());
-	projectile4->setX(getX());
-	projectile4->setY(getY());
-
-	D3DXVECTOR2 velocity1 = VECTOR2(-getX(), 0);
-	D3DXVECTOR2 velocity2 = VECTOR2(getX(), 0);
-	D3DXVECTOR2 velocity3 = VECTOR2(0, -getY());
-	D3DXVECTOR2 velocity4 = VECTOR2(0, getY());
-	projectile1->setVelocity(velocity1 * projectileSpeed);
-	projectile2->setVelocity(velocity2 * projectileSpeed);
-	projectile3->setVelocity(velocity3 * projectileSpeed);
-	projectile4->setVelocity(velocity4 * projectileSpeed);
-
-}
-
-
-void Stage1::setupProjectileAll(Projectile* projectile1, Projectile* projectile2, Projectile* projectile3, Projectile* projectile4,
-	Projectile* projectile5, Projectile* projectile6, Projectile* projectile7, Projectile* projectile8) //setup projectiles velocity 
-{
-	projectile1->setX(getX());
-	projectile1->setY(getY());
-	projectile2->setX(getX());
-	projectile2->setY(getY());
-	projectile3->setX(getX());
-	projectile3->setY(getY());
-	projectile4->setX(getX());
-	projectile4->setY(getY());
-
-	projectile5->setX(getX());
-	projectile5->setY(getY());
-	projectile6->setX(getX());
-	projectile6->setY(getY());
-	projectile7->setX(getX());
-	projectile7->setY(getY());
-	projectile8->setX(getX());
-	projectile8->setY(getY());
-
-	D3DXVECTOR2 velocity1 = VECTOR2(-getX(), 0);
-	D3DXVECTOR2 velocity2 = VECTOR2(getX(), 0);
-	D3DXVECTOR2 velocity3 = VECTOR2(0, -getY());
-	D3DXVECTOR2 velocity4 = VECTOR2(0, getY());
-
-	//bottom right
-	D3DXVECTOR2 velocity5 = VECTOR2(getX(), getY());
-
-	//top right
-	D3DXVECTOR2 velocity6 = VECTOR2(getX(), -getY());
-
-	//bottom left
-	D3DXVECTOR2 velocity7 = VECTOR2(-getX(), getY());
-
-	//top left
-	D3DXVECTOR2 velocity8 = VECTOR2(-getX(), -getY());
-
-
-	projectile1->setVelocity(velocity1 * projectileSpeed);
-	projectile2->setVelocity(velocity2 * projectileSpeed);
-	projectile3->setVelocity(velocity3 * projectileSpeed);
-	projectile4->setVelocity(velocity4 * projectileSpeed);
-
-	projectile5->setVelocity(velocity5 * projectileSpeed);
-	projectile6->setVelocity(velocity6 * projectileSpeed);
-	projectile7->setVelocity(velocity7 * projectileSpeed);
-	projectile8->setVelocity(velocity8 * projectileSpeed);
-
-}
-
-void Stage1::spawnProjectilesLeftRight(Projectile* projectiles[], float frameTime)
+void Stage1::spawnProjectiles(Projectile* projectiles[], float frameTime, Player ship) //projectile spawning
 {
 
 	if (spawnBool)
@@ -197,74 +122,13 @@ void Stage1::spawnProjectilesLeftRight(Projectile* projectiles[], float frameTim
 		spawnTimer += frameTime;
 		if (spawnTimer > spawnRate)
 		{
-			for (int i = 0; i < MAX_PROJECTILES; i += 2)
+			for (int i = 0; i < MAX_PROJECTILES; ++i)
 			{
 				if (projectiles[i]->getActive() == false)
 				{
-					setupProjectileLeftRight(projectiles[i], projectiles[i + 1]);
+					setupProjectile(projectiles[i], ship);
 					projectiles[i]->setActive(true);
-					projectiles[i + 1]->setActive(true);
-					activeProjectiles += 2;
-
-					break;
-				}
-			}
-			spawnTimer -= spawnRate;
-		}
-
-	}
-}
-
-
-void Stage1::spawnProjectilesUpDownLeftRight(Projectile* projectiles[], float frameTime)
-{
-	if (spawnBool)
-	{
-		spawnTimer += frameTime;
-		if (spawnTimer > spawnRate)
-		{
-			for (int i = 0; i < MAX_PROJECTILES; i += 4)
-			{
-				if (projectiles[i]->getActive() == false)
-				{
-					setupProjectileUpDownLeftRight(projectiles[i], projectiles[i + 1], projectiles[i + 2], projectiles[i + 3]);
-					projectiles[i]->setActive(true);
-					projectiles[i + 1]->setActive(true);
-					projectiles[i + 2]->setActive(true);
-					projectiles[i + 3]->setActive(true);
-					activeProjectiles += 4;
-
-					break;
-				}
-			}
-			spawnTimer -= spawnRate;
-		}
-
-	}
-}
-
-void Stage1::spawnProjectilesAll(Projectile* projectiles[], float frameTime)
-{
-	if (spawnBool)
-	{
-		spawnTimer += frameTime;
-		if (spawnTimer > spawnRate)
-		{
-			for (int i = 0; i < MAX_PROJECTILES; i++)
-			{
-				if (projectiles[i]->getActive() == false)
-				{
-					setupProjectileAll(projectiles[i], projectiles[i + 1], projectiles[i + 2], projectiles[i + 3], projectiles[i + 4]
-						, projectiles[i + 5], projectiles[i + 6], projectiles[i + 7]);
-					projectiles[i]->setActive(true);
-					projectiles[i + 1]->setActive(true);
-					projectiles[i + 2]->setActive(true);
-					projectiles[i + 3]->setActive(true);
-					projectiles[i + 4]->setActive(true);
-					projectiles[i + 5]->setActive(true);
-					projectiles[i + 6]->setActive(true);
-					projectiles[i + 7]->setActive(true);
-					activeProjectiles += 8;
+					activeProjectiles += 1;
 
 					break;
 				}
@@ -314,7 +178,6 @@ void Stage1::updateAbilities(Projectile* projectiles[], float frameTime)
 	switch (waveValue)
 	{
 	case wave1:
-		spawnProjectilesLeftRight(projectiles, frameTime);
 		projectileSpeed = ProjectileNS::PROJECTILE_EASY_SPEED;
 		spawnRate = ProjectileNS::PROJECTILE_EASY_SPAWN;
 		for (int i = 0; i < MAX_PROJECTILES; i++)
@@ -324,7 +187,6 @@ void Stage1::updateAbilities(Projectile* projectiles[], float frameTime)
 		break;
 
 	case wave2:
-		spawnProjectilesUpDownLeftRight(projectiles, frameTime);
 		projectileSpeed = ProjectileNS::PROJECTILE_MEDIUM_SPEED;
 		spawnRate = ProjectileNS::PROJECTILE_MEDIUM_SPAWN;
 		for (int i = 0; i < MAX_PROJECTILES; ++i)
@@ -334,7 +196,6 @@ void Stage1::updateAbilities(Projectile* projectiles[], float frameTime)
 		break;
 
 	case wave3:
-		spawnProjectilesAll(projectiles, frameTime);
 		projectileSpeed = ProjectileNS::PROJECTILE_HARD_SPEED;
 		spawnRate = ProjectileNS::PROJECTILE_HARD_SPAWN;
 		for (int i = 0; i < MAX_PROJECTILES; ++i)

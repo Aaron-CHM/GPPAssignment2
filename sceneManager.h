@@ -7,12 +7,9 @@
 #define _SCENEMANAGER_H             // ..file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
-//#include "menu.h"
-//#include "levelSelect.h"
 #include "soloOdyssey.h"
 #include "game.h"
 #include "textDX.h"
-//#include "gameOver.h"
 
 
 //=============================================================================
@@ -23,11 +20,11 @@ class SceneManager : public Game //meant for managing between scenes
 protected:
     enum Scene
     {
-        menuScene,
-        optionsScene,
-        levelSelectScene,
+        //menuScene,
+        //optionsScene,
+        //levelSelectScene,
         gameScene,
-        gameOverScene
+        //gameOverScene
     };
 
 

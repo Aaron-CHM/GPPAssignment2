@@ -6,15 +6,9 @@
 //=============================================================================
 SceneManager::SceneManager()
 {
-    gameOver = new GameOver();
-    levelSelect = new LevelSelect();
-    menu = new Menu();
     soloOdyssey = new SoLoOdyssey();
     text = new TextDX();     // DirectX fonts
-    currentScene = Scene::menuScene; //Set starting screen to be the current scene 
-
-
-
+    currentScene = Scene::gameScene; //Set game screen to be the current scene 
 }
 
 //=============================================================================
@@ -23,7 +17,6 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
     releaseAll();           // call onLostDevice() for SceneManager graphics item
-
 }
 
 //=============================================================================
@@ -40,7 +33,7 @@ void SceneManager::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font")); //initialize text for debugging purposes 
 
 
-    soloOdyssey->initialize(graphics, this); //initialize different scenes
+    soloOdyssey->initialize(graphics, this);
     //menu->initialize(graphics, this);
     //levelSelect->initialize(graphics, this);
     //gameOver->initialize(graphics, this);
@@ -56,79 +49,82 @@ void SceneManager::update()
 {
     switch (currentScene)
     {
-    case SceneManager::menuScene:
-        switch (menu->update(input))
-        {
-        case 1:
-            currentScene = Scene::levelSelectScene;
-            break;
-        case 2:
-            currentScene = Scene::optionsScene;
-            break;
-        case 3:
-            exitGame();
-            break;
-        default:
-            break;
-        }
-        break;
-    case SceneManager::optionsScene:
-        break;
-    case SceneManager::levelSelectScene:
-        switch (levelSelect->update(input))
-        {
-        case 1:
-            soloOdyssey->setStage(SoLoOdyssey::Stage::level1);
-            soloOdyssey->stage1Setup();
-            currentScene = Scene::gameScene;
-            break;
-        case 2:
-            soloOdyssey->setStage(SoLoOdyssey::Stage::level2);
-            soloOdyssey->stage2Setup();
-            currentScene = Scene::gameScene;
-            break;
-        case 3:
-            soloOdyssey->setStage(SoLoOdyssey::Stage::level3);
-            soloOdyssey->stage3Setup();
-            currentScene = Scene::gameScene;
-            break;
-        default:
-            break;
-        }
-        break;
-    case SceneManager::gameScene:
-        switch (soloOdyssey->update(frameTime))
-        {
-        case 1:
-            gameOver->setGameOutcome(false);
-            currentScene = Scene::gameOverScene;
-            break;
-        case 2:
-            gameOver->setGameOutcome(true);
-            currentScene = Scene::gameOverScene;
-            break;
-        default:
-            break;
-        }
+        soloOdyssey->setStage(SoLoOdyssey::Stage::level1);
+        soloOdyssey->stage1Setup();
+        currentScene = Scene::gameScene;
 
-        break;
-    case SceneManager::gameOverScene:
-        switch (gameOver->update(input))
-        {
-        case 1:
-            currentScene = Scene::gameScene;
-            break;
-        case 2:
-            currentScene = Scene::levelSelectScene;
-            break;
-        case 3:
-            currentScene = Scene::menuScene;
-            break;
-        case 4:
-            exitGame();
-            break;
-        };
-        break;
+//    case SceneManager::menuScene:
+//        switch (menu->update(input))
+//        {
+//        case 1:
+//            currentScene = Scene::levelSelectScene;
+//            break;
+//        case 2:
+//            currentScene = Scene::optionsScene;
+//            break;
+//        case 3:
+//            exitGame();
+//            break;
+//        default:
+//            break;
+//        }
+//        break;
+//    case SceneManager::optionsScene:
+//        break;
+//    case SceneManager::levelSelectScene:
+//        switch (levelSelect->update(input))
+//        {
+//        case 1:
+//            soloOdyssey->setStage(SoLoOdyssey::Stage::level1);
+//            soloOdyssey->stage1Setup();
+//            currentScene = Scene::gameScene;
+//            break;
+//        case 2:
+//            soloOdyssey->setStage(SoLoOdyssey::Stage::level2);
+//            soloOdyssey->stage2Setup();
+//            currentScene = Scene::gameScene;
+//            break;
+//        case 3:
+//            soloOdyssey->setStage(SoLoOdyssey::Stage::level3);
+//            soloOdyssey->stage3Setup();
+//            currentScene = Scene::gameScene;
+//            break;
+//        default:
+//            break;
+//        }
+//        break;
+//    case SceneManager::gameScene:
+//        switch (soloOdyssey->update(frameTime))
+//        {
+//        case 1:
+//            gameOver->setGameOutcome(false);
+//            currentScene = Scene::gameOverScene;
+//            break;
+//        case 2:
+//            gameOver->setGameOutcome(true);
+//            currentScene = Scene::gameOverScene;
+//            break;
+//        default:
+//            break;
+//        }
+//        break;
+//    case SceneManager::gameOverScene:
+//        switch (gameOver->update(input))
+//        {
+//        case 1:
+//            currentScene = Scene::gameScene;
+//            break;
+//        case 2:
+//            currentScene = Scene::levelSelectScene;
+//            break;
+//        case 3:
+//            currentScene = Scene::menuScene;
+//            break;
+//        case 4:
+//            exitGame();
+//            break;
+//        };
+//        break;
     default:
         break;
     }
@@ -167,20 +163,20 @@ void SceneManager::render()
 {
     switch (currentScene)
     {
-    case SceneManager::menuScene:
-        menu->render();
-        break;
-    case SceneManager::optionsScene:
-        break;
-    case SceneManager::levelSelectScene:
-        levelSelect->render();
-        break;
+//    case SceneManager::menuScene:
+//        menu->render();
+//        break;
+//    case SceneManager::optionsScene:
+//        break;
+//    case SceneManager::levelSelectScene:
+//        levelSelect->render();
+//        break;
     case SceneManager::gameScene:
         soloOdyssey->render();
         break;
-    case SceneManager::gameOverScene:
-        gameOver->render();
-        break;
+//    case SceneManager::gameOverScene:
+//        gameOver->render();
+//        break;
     default:
         break;
     }
