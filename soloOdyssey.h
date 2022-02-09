@@ -3,8 +3,8 @@
 //  Student Name:       Aaron Choo 
 //  Student Number:     S10194746C
 
-#ifndef _SoLoOdyssey_H             // prevent multiple definitions if this 
-#define _SoLoOdyssey_H             // ..file is included in more than one place
+#ifndef _soloOdyssey_H             // prevent multiple definitions if this 
+#define _soloOdyssey_H             // ..file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "game.h"
@@ -15,12 +15,12 @@
 #include "projectile.h"
 #include "textDX.h"
 #include "asteroid.h"
-#include "stage1.h"
+#include "boss.h"
 //#include "gameOver.h"
 //=============================================================================
 // Create game class
 //=============================================================================
-class SoLoOdyssey
+class SoloOdyssey
 {
 private:
 
@@ -40,28 +40,26 @@ private:
     // variables
     TextureManager gameTextures;    // game texture
 
-    TextureManager stage1Texture;    //stage1 texture 
-    TextureManager stage2Texture;    //stage2 texture 
-    TextureManager stage3Texture;    //stage3 texture 
-
-    Stage1 stage1;
-    //Stage2 stage2;
-    //Stage3 stage3;
+    TextureManager backgroundTexture;    //background texture
+    Image background;
 
     Projectile* projectiles[MAX_PROJECTILES]; //pointer to projectiles;
     Projectile tempProjectiles[MAX_PROJECTILES]; //for initializing projectiles
 
     TextureManager asteroidTexture; //asteroid texture
-    TextureManager enemy1ProjectileTexture; //projectile texture for stage1
-    TextureManager enemy2ProjectileTexture; //projectile texture for stage2
-    TextureManager bossProjectileTexture; //projectile texture for boss stage
-    
     Asteroid asteroid;
-    Projectile enemy1Projectile;
-    Projectile enemy2Projectile;
-    Projectile bossProjectile;
 
-    Player    playerShip;          // spaceship
+    TextureManager bossTexture; //boss texture
+    Boss boss;
+
+    TextureManager enemyProjectile1Texture; //projectile texture 1
+    Projectile enemy1Projectile;
+
+    TextureManager enemyProjectile2Texture; //projectile texture 2
+    Projectile enemy2Projectile;
+
+    TextureManager playerShipTexture; //player ship texture
+    Player    playerShip;
 
 
 
@@ -69,17 +67,17 @@ public:
     enum Stage
     {
         level1,
-        level2,
-        level3
+        //level2,
+        //level3
     };
 
     Stage stage;
 
     // Constructor
-    SoLoOdyssey();
+    SoloOdyssey();
 
     // Destructor
-    virtual ~SoLoOdyssey();
+    virtual ~SoloOdyssey();
 
     // Initialize the game
     void initialize(Graphics* g, Game* gPtr);
@@ -91,8 +89,8 @@ public:
     void resetAll();
     void generateBoundary(); //generating the boundaries of the box
     void stage1Setup();     //setup first stage
-    void stage2Setup();     //setup second stage
-    void stage3Setup();     //setup third stage
+    //void stage2Setup();     //setup second stage
+    //void stage3Setup();     //setup third stage
 
     void setStage (Stage stageNo) { stage = stageNo; };
 

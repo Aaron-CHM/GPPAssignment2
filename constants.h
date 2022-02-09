@@ -49,6 +49,8 @@ const char BOSS_IMAGE[] = "pictures\\Boss.png";
 const char ENEMYSHIP1_IMAGE[] = "pictures\\EnemyShip1.png";
 const char ENEMYSHIP2_SMALL_IMAGE[] = "pictures\\EnemyShip2_small.png";
 const char ENEMYSHIP2_LARGE_IMAGE[] = "pictures\\EnemyShip2_large.png";
+const char ENEMYPROJECTILE1_IMAGE[] = "pictures\\enemyProjectile1.png";
+const char ENEMYPROJECTILE2_IMAGE[] = "pictures\\enemyProjectile2.png";
 
 //ENVIRONMENT 
 const int FLOOR_ROW_LENGTH = 11;

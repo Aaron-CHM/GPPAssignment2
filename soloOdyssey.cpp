@@ -3,12 +3,12 @@
 //  Student Name:       Aaron Choo 
 //  Student Number:     S10194746C
 
-#include "SoLoOdyssey.h"
+#include "soloOdyssey.h"
 
 //=============================================================================
 // Constructor
 //=============================================================================
-SoLoOdyssey::SoLoOdyssey()
+SoloOdyssey::SoloOdyssey()
 {
 
     dxFontSmall = new TextDX();     // DirectX fonts
@@ -17,7 +17,7 @@ SoLoOdyssey::SoLoOdyssey()
 //=============================================================================
 // Destructor
 //=============================================================================
-SoLoOdyssey::~SoLoOdyssey()
+SoloOdyssey::~SoloOdyssey()
 {
     releaseAll();           // call onLostDevice() for every graphics item
     SAFE_DELETE(dxFontSmall);
@@ -27,7 +27,7 @@ SoLoOdyssey::~SoLoOdyssey()
 // Initializes the game
 // Throws GameError on error
 //=============================================================================
-void SoLoOdyssey::initialize(Graphics* g, Game* gPtr)
+void SoloOdyssey::initialize(Graphics* g, Game* gPtr)
 {
     graphics = g;
     gamePtr = gPtr;
@@ -42,9 +42,13 @@ void SoLoOdyssey::initialize(Graphics* g, Game* gPtr)
     if (!gameTextures.initialize(graphics, TEXTURES_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game textures"));
 
+    // background texture
+    if (!backgroundTexture.initialize(graphics, NEBULA_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background texture"));
+
     // ship
     if (!playerShip.initialize(gamePtr, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, &gameTextures))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship1"));
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player ship"));
     playerShip.setFrames(playerNS::SHIP1_START_FRAME, playerNS::SHIP1_END_FRAME);
     playerShip.setCurrentFrame(playerNS::SHIP1_START_FRAME);
     playerShip.setX(GAME_WIDTH / 2 - playerNS::WIDTH / 2); //Set ship to center 
@@ -56,13 +60,13 @@ void SoLoOdyssey::initialize(Graphics* g, Game* gPtr)
 //=============================================================================
 // Update all game items
 //=============================================================================
-int SoLoOdyssey::update(float frameTime)
+int SoloOdyssey::update(float frameTime)
 {
 
     if (playerShip.getHealth() <= 0)
     {
         projectiles[0]->clearProjectiles(projectiles);
-        stage1.setTimer(0);
+        boss.setTimer(0);
         playerShip.setHealth(100);
         return 1;
     }
@@ -77,11 +81,11 @@ int SoLoOdyssey::update(float frameTime)
         {
             projectiles[i]->update(frameTime);
         }
-        stage1.update(frameTime, projectiles, playerShip);
-        if (stage1.getTimer() > 60.0f)
+        boss.update(frameTime, projectiles, playerShip);
+        if (boss.getTimer() > 60.0f)
         {
             projectiles[0]->clearProjectiles(projectiles);
-            stage1.setTimer(0);
+            boss.setTimer(0);
             playerShip.setHealth(100);
             return 2;
         }
@@ -101,20 +105,20 @@ int SoLoOdyssey::update(float frameTime)
 //=============================================================================
 // Artificial Intelligence
 //=============================================================================
-void SoLoOdyssey::ai() {}
+void SoloOdyssey::ai() {}
 
 //=============================================================================
 // Handle collisions
 //=============================================================================
-void SoLoOdyssey::collisions()
+void SoloOdyssey::collisions()
 {
     VECTOR2 collisionVector;
-    for (int i = 0; i < stage1.getActiveProjectiles(); ++i)
+    for (int i = 0; i < boss.getActiveProjectiles(); ++i)
     {
         if (projectiles[i]->collidesWith(playerShip, collisionVector))
         {
             projectiles[i]->setActive(false);
-            stage1.setActiveProjectiles(stage1.getActiveProjectiles() - 1);
+            boss.setActiveProjectiles(boss.getActiveProjectiles() - 1);
             playerShip.setHealth(playerShip.getHealth() - projectiles[i]->getProjectileDamage());
             break;
         }
@@ -130,7 +134,7 @@ void SoLoOdyssey::collisions()
 //=============================================================================
 // Render game items
 //=============================================================================
-void SoLoOdyssey::render()
+void SoloOdyssey::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
@@ -146,7 +150,7 @@ void SoLoOdyssey::render()
 // The graphics device was lost.
 // Release all reserved video memory so graphics device may be reset.
 //=============================================================================
-void SoLoOdyssey::releaseAll()
+void SoloOdyssey::releaseAll()
 {
     return;
 }
@@ -155,32 +159,51 @@ void SoLoOdyssey::releaseAll()
 // The grahics device has been reset.
 // Recreate all surfaces.
 //=============================================================================
-void SoLoOdyssey::resetAll()
+void SoloOdyssey::resetAll()
 {
     return;
 }
 
-void SoLoOdyssey::generateBoundary()
+void SoloOdyssey::generateBoundary()
 {
 
 }
 
 
 
-void SoLoOdyssey::stage1Setup()
+void SoloOdyssey::stage1Setup()
 {
+    //initialise textures
+    //boss texture
+    if (!bossTexture.initialize(graphics, ENEMYSHIP1_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing boss texture"));
+    //enemy projectile Textures
+    if (!enemyProjectile1Texture.initialize(graphics, ENEMYPROJECTILE1_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing enemyprojectile1 texture"));
+    if (!enemyProjectile2Texture.initialize(graphics, ENEMYPROJECTILE2_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing enemyprojectile2 texture"));
+
+    //asteroid textures
+    if (!asteroidTexture.initialize(graphics, ASTEROID_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing asteroid textures"));
+
+    //asteroid initialization
+    if (!asteroid.initialize(gamePtr, asteroidNS::WIDTH, asteroidNS::HEIGHT, 0, &asteroidTexture))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing asteroid"));
+    asteroid.setX(GAME_WIDTH / 2 - GAME_WIDTH / 3);
+    asteroid.setY(GAME_HEIGHT / 3 - GAME_HEIGHT / 3);
 
 }
 
-void SoLoOdyssey::stage2Setup()
-{
+//void SoloOdyssey::stage2Setup()
+//{
 
-}
+//}
 
-void SoLoOdyssey::stage3Setup()
-{
+//void SoloOdyssey::stage3Setup()
+//{
 
-}
+//}
 
 
 

@@ -54,7 +54,7 @@
     <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stage1.h">
+    <ClInclude Include="boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
@@ -71,7 +71,7 @@
     <ClCompile Include="projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stage1.cpp">
+    <ClCompile Include="boss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="image.cpp">

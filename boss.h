@@ -3,8 +3,8 @@
 //  Student Name:       Aaron Choo 
 //  Student Number:     S10194746C
 
-#ifndef _STAGE1_H                 // Prevent multiple definitions if this 
-#define _STAGE1_H                 // file is included in more than one place
+#ifndef _Boss_H                 // Prevent multiple definitions if this 
+#define _Boss_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
@@ -13,18 +13,16 @@
 #include "environment.h"
 #include "player.h"
 
-namespace stage1NS
+namespace BossNS
 {
-    const int WIDTH = 32;                   // image width
-    const int HEIGHT = 32;                  // image height
-    const int X = GAME_WIDTH / 2 - WIDTH / 3;   // location on screen
-    const int Y = GAME_HEIGHT / 3 - HEIGHT / 3;
-    const float SPEED = 100;                // 100 pixels per second
-    const float MASS = 300.0f;              // mass
+    const int WIDTH = 244;                   // image width
+    const int HEIGHT = 300;                  // image height
+    const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
+    const int Y = BossNS::HEIGHT;
 }
 
 // inherits from Entity class
-class Stage1 : public Entity
+class Boss : public Entity
 {
 protected:
 
@@ -46,13 +44,14 @@ protected:
 
 public:
     // constructor
-    Stage1();
+    Boss();
 
     // inherited member functions
     virtual void draw();
-    void update(float frameTime, Projectile* projectiles[], Player ship);
+
     virtual bool initialize(Game* gamePtr, int width, int height, int ncols,
         TextureManager* textureM);
+    void update(float frameTime, Projectile* projectiles[], Player ship);
     
     void projectileInitialization(Projectile* projectile);
     void setupProjectile(Projectile* projectile, Player ship); //set up velocity + angle of projectiles
@@ -66,23 +65,19 @@ public:
 
     //get setters
     void setX(float x) { spriteData.x = x; };
-
     float getX() { return spriteData.x; };
 
     void setY(float y) { spriteData.y = y; };
-
     float getY() { return spriteData.y; };
 
     float getSpawnTimer() { return spawnTimer; };
 
     void setTimer(float t) { timer = t; };
-
     float getTimer() { return timer; };
 
     int getWaveValue() { return waveValue; };
 
     void setActiveProjectiles(int newActiveProjectiles) { activeProjectiles = newActiveProjectiles; };
-
     int getActiveProjectiles() { return activeProjectiles; };
 
 };

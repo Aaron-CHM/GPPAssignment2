@@ -3,22 +3,20 @@
 //  Student Name:       Aaron Choo 
 //  Student Number:     S10194746C
 
-#include "stage1.h"
+#include "boss.h"
 #include<iostream>
 #include "player.h"
 
-Stage1::Stage1()
+Boss::Boss()
 {
-	//animation
-	spriteData.width = stage1NS::WIDTH;           // size of stage1
-	spriteData.height = stage1NS::HEIGHT;
-	spriteData.x = stage1NS::X;                   // location on screen
-	spriteData.y = stage1NS::Y;
-	spriteData.rect.bottom = stage1NS::HEIGHT;    // rectangle to select parts of an image
-	spriteData.rect.right = stage1NS::WIDTH;
-	currentFrame = startFrame;
+	spriteData.width = BossNS::WIDTH;           // size of boss
+	spriteData.height = BossNS::HEIGHT;
+	spriteData.x = BossNS::X;                   // location on screen
+	spriteData.y = BossNS::Y;
+	spriteData.rect.bottom = BossNS::HEIGHT;    // rectangle to select parts of an image
+	spriteData.rect.right = BossNS::WIDTH;
 
-	//boss variables
+	//stage variables
 	projectileSpeed = ProjectileNS::PROJECTILE_EASY_SPEED;
 	spawnRate = ProjectileNS::PROJECTILE_EASY_SPAWN;
 	timer = 0;
@@ -31,57 +29,33 @@ Stage1::Stage1()
 
 }
 
-bool Stage1::initialize(Game* gamePtr, int width, int height, int ncols,
+bool Boss::initialize(Game* gamePtr, int width, int height, int ncols,
 	TextureManager* textureM)
 {
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
 
-void Stage1::draw()
+void Boss::draw()
 {
 	Image::draw();
 }
 
-void Stage1::update(float frameTime, Projectile* projectiles[], Player ship)
+void Boss::update(float frameTime, Projectile* projectiles[], Player ship)
 {
-
 	Entity::update(frameTime);
 	updateWave(projectiles, frameTime);
 	spawnProjectiles(projectiles, frameTime, ship);
-
-	spriteData.x += frameTime * velocity.x;
-	spriteData.y += frameTime * velocity.y;
-
-	// Bounce off walls
-	if (spriteData.x > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    // if hit right screen edge
-	{
-		spriteData.x = (boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH);    // position at right screen edge
-		velocity.x = -velocity.x;                   // reverse X direction
-	}
-	else if (spriteData.x < boundaryEnvironmentNS::MIN_X)                    // else if hit left screen edge
-	{
-		spriteData.x = ((float)boundaryEnvironmentNS::MIN_X);                           // position at left screen edge
-		velocity.x = -velocity.x;                   // reverse X direction
-	}
-	if (spriteData.y > boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT)  // if hit bottom screen edge
-	{
-		spriteData.y = ((float)boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT);  // position at bottom screen edge
-		velocity.y = -velocity.y;                   // reverse Y direction
-	}
-	else if (spriteData.y < boundaryEnvironmentNS::MIN_Y)                    // else if hit top screen edge
-	{
-		spriteData.y = ((float)boundaryEnvironmentNS::MIN_Y);                           // position at top screen edge
-		velocity.y = -velocity.y;                  // reverse Y direction
-	}
-
 }
 
-void Stage1::projectileInitialization(Projectile* projectile)//Initialize projectiles
+void Boss::projectileInitialization(Projectile* projectile)//Initialize projectiles
 {
 	projectile->setWidth(ProjectileNS::WIDTH);
 	projectile->setHeight(ProjectileNS::HEIGHT);
 	projectile->setX(getX());
 	projectile->setX(getY());
+	projectile->setFrameDelay(0.2f);
+	projectile->setStartFrame(ProjectileNS::START_FRAME);
+	projectile->setEndFrame(ProjectileNS::END_FRAME);
 	projectile->setRectBottom(ProjectileNS::HEIGHT);
 	projectile->setRectRight(ProjectileNS::WIDTH);
 	projectile->setCurrentFrame(startFrame);
@@ -89,11 +63,13 @@ void Stage1::projectileInitialization(Projectile* projectile)//Initialize projec
 	projectile->setLoop(false);
 	projectile->setCollisionRadius(ProjectileNS::WIDTH / 4);
 	projectile->setProjectileDamage(0);
+	projectile->setFrames(ProjectileNS::START_FRAME, ProjectileNS::END_FRAME);
+	projectile->setCurrentFrame(ProjectileNS::START_FRAME);
 	projectile->setActive(false);
 	projectile->setMass(300.0f);
 }
 
-void Stage1::setupProjectile(Projectile* projectile, Player ship) //setup projectiles to shoot towards the player
+void Boss::setupProjectile(Projectile* projectile, Player ship) //setup projectiles to shoot towards the player
 {
 	projectile->setX(getX());
 	projectile->setY(getY());
@@ -114,7 +90,7 @@ void Stage1::setupProjectile(Projectile* projectile, Player ship) //setup projec
 	projectile->setAngle(projectileAngle);
 }
 
-void Stage1::spawnProjectiles(Projectile* projectiles[], float frameTime, Player ship) //projectile spawning
+void Boss::spawnProjectiles(Projectile* projectiles[], float frameTime, Player ship) //projectile spawning
 {
 
 	if (spawnBool)
@@ -139,7 +115,7 @@ void Stage1::spawnProjectiles(Projectile* projectiles[], float frameTime, Player
 	}
 }
 
-void Stage1::offScreen(Projectile* projectiles[]) //delete projectiles when offscreen
+void Boss::offScreen(Projectile* projectiles[]) //delete projectiles when offscreen
 {
 	for (int i = 0; i < activeProjectiles; ++i)
 	{
@@ -174,7 +150,7 @@ void Stage1::offScreen(Projectile* projectiles[]) //delete projectiles when offs
 	}
 }
 
-void Stage1::updateWave(Projectile* projectiles[], float frameTime)
+void Boss::updateWave(Projectile* projectiles[], float frameTime)
 {
 	timer += frameTime;
 	if (timer > 20.0f && timer < 21.0f)
@@ -242,7 +218,7 @@ void Stage1::updateWave(Projectile* projectiles[], float frameTime)
 
 }
 
-void Stage1::resetSpawn()
+void Boss::resetSpawn()
 {
 	spawnBool = false;
 	spawnTimer = 0;
