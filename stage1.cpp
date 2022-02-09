@@ -46,7 +46,7 @@ void Stage1::update(float frameTime, Projectile* projectiles[], Player ship)
 {
 
 	Entity::update(frameTime);
-	updateAbilities(projectiles, frameTime);
+	updateWave(projectiles, frameTime);
 	spawnProjectiles(projectiles, frameTime, ship);
 
 	spriteData.x += frameTime * velocity.x;
@@ -139,7 +139,42 @@ void Stage1::spawnProjectiles(Projectile* projectiles[], float frameTime, Player
 	}
 }
 
-void Stage1::updateAbilities(Projectile* projectiles[], float frameTime)
+void Stage1::offScreen(Projectile* projectiles[]) //delete projectiles when offscreen
+{
+	for (int i = 0; i < activeProjectiles; ++i)
+	{
+		if (projectiles[i]->getActive())
+		{
+			if (projectiles[i]->getX() > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    //if touching boundary      
+			{
+				projectiles[i]->setActive(false);
+				activeProjectiles -= 1;
+				break;
+			}
+
+
+			if (projectiles[i]->getX() < boundaryEnvironmentNS::MIN_X)
+
+			{
+				projectiles[i]->setActive(false);
+				activeProjectiles -= 1;
+				break;
+			}
+
+
+			if (projectiles[i]->getY() > boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT)
+			{
+				projectiles[i]->setActive(false);
+				activeProjectiles -= 1;
+				break;
+			}
+
+		}
+
+	}
+}
+
+void Stage1::updateWave(Projectile* projectiles[], float frameTime)
 {
 	timer += frameTime;
 	if (timer > 20.0f && timer < 21.0f)

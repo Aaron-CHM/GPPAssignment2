@@ -53,10 +53,13 @@ public:
     void update(float frameTime, Projectile* projectiles[], Player ship);
     virtual bool initialize(Game* gamePtr, int width, int height, int ncols,
         TextureManager* textureM);
+    
     void projectileInitialization(Projectile* projectile);
     void setupProjectile(Projectile* projectile, Player ship); //set up velocity + angle of projectiles
     void spawnProjectiles(Projectile* projectiles[], float frameTime, Player ship);  //spawn projectiles
-    void updateAbilities(Projectile* projectiles[], float frameTime);
+    void offScreen(Projectile* projectiles[]); //remove projectiles when offscreen
+    
+    void updateWave(Projectile* projectiles[], float frameTime);
     void resetSpawn();
 
 
