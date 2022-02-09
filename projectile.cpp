@@ -20,12 +20,14 @@ Projectile::Projectile()
 	loop = false;
 
 }
+
 bool Projectile::initialize(Game* gamePtr, int width, int height, int ncols,
 	TextureManager* textureM)
 {
 
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
+
 void Projectile::draw()
 {
 	Image::draw();
@@ -37,18 +39,19 @@ void Projectile::update(float frameTime)
 	spriteData.y += frameTime * velocity.y;         // move ship along Y
 	Entity::update(frameTime);
 }
+
 void Projectile::spawnProjectiles(Projectile* projectiles[])
 {
 	for (int i = 0; i < MAX_PROJECTILES; ++i)
 	{
 		if (projectiles[i]->getActive())
 		{
-
 			projectiles[i]->draw();
 
 		}
 	}
 }
+
 void Projectile::clearProjectiles(Projectile* projectiles[])
 {
 	for (int i = 0; i < MAX_PROJECTILES; ++i)

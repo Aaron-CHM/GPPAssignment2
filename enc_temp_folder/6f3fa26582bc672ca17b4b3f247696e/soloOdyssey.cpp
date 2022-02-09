@@ -137,7 +137,7 @@ void SoloOdyssey::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
-    //projectiles[0]->spawnProjectiles(projectiles); //error when no enemy to fire projectiles
+    projectiles[0]->spawnProjectiles(projectiles);
 
     playerShip.draw();                           // add ship to scene
     graphics->spriteEnd();                  // end drawing sprites
