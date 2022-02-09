@@ -12,14 +12,10 @@
 
 namespace ProjectileNS
 {
-    const int WIDTH = 64;                   // image width
-    const int HEIGHT = 64;                  // image height
+    const int WIDTH = 40;                   // image width
+    const int HEIGHT = 40;                  // image height
     const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
     const int Y = GAME_HEIGHT / 4;
-    const int   TEXTURE_COLS = 0;           // texture has 8 columns
-    const int   START_FRAME = 0;      // starts at frame 0
-    const int   END_FRAME = 4;        // animation frames 0,1,2,3,4
-    const float ANIMATION_DELAY = 0.2f;    // time between frames
 
 
     const float PROJECTILE_EASY_SPEED = 1.0f; //projectile speed rate 

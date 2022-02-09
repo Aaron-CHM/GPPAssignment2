@@ -53,9 +53,6 @@ void Boss::projectileInitialization(Projectile* projectile)//Initialize projecti
 	projectile->setHeight(ProjectileNS::HEIGHT);
 	projectile->setX(getX());
 	projectile->setX(getY());
-	projectile->setFrameDelay(0.2f);
-	projectile->setStartFrame(ProjectileNS::START_FRAME);
-	projectile->setEndFrame(ProjectileNS::END_FRAME);
 	projectile->setRectBottom(ProjectileNS::HEIGHT);
 	projectile->setRectRight(ProjectileNS::WIDTH);
 	projectile->setCurrentFrame(startFrame);
@@ -63,8 +60,6 @@ void Boss::projectileInitialization(Projectile* projectile)//Initialize projecti
 	projectile->setLoop(false);
 	projectile->setCollisionRadius(ProjectileNS::WIDTH / 4);
 	projectile->setProjectileDamage(0);
-	projectile->setFrames(ProjectileNS::START_FRAME, ProjectileNS::END_FRAME);
-	projectile->setCurrentFrame(ProjectileNS::START_FRAME);
 	projectile->setActive(false);
 	projectile->setMass(300.0f);
 }
@@ -115,13 +110,13 @@ void Boss::spawnProjectiles(Projectile* projectiles[], float frameTime, Player s
 	}
 }
 
-void Boss::offScreen(Projectile* projectiles[]) //delete projectiles when offscreen
+void Boss::offScreenProjectile(Projectile* projectiles[]) //delete projectiles when offscreen
 {
 	for (int i = 0; i < activeProjectiles; ++i)
 	{
 		if (projectiles[i]->getActive())
 		{
-			if (projectiles[i]->getX() > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    //if touching boundary      
+			if (projectiles[i]->getX() > GAME_WIDTH) //right side      
 			{
 				projectiles[i]->setActive(false);
 				activeProjectiles -= 1;
@@ -129,7 +124,7 @@ void Boss::offScreen(Projectile* projectiles[]) //delete projectiles when offscr
 			}
 
 
-			if (projectiles[i]->getX() < boundaryEnvironmentNS::MIN_X)
+			if (projectiles[i]->getX() < 0) //left side
 
 			{
 				projectiles[i]->setActive(false);
@@ -138,7 +133,7 @@ void Boss::offScreen(Projectile* projectiles[]) //delete projectiles when offscr
 			}
 
 
-			if (projectiles[i]->getY() > boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT)
+			if (projectiles[i]->getY() > GAME_HEIGHT) //bottom
 			{
 				projectiles[i]->setActive(false);
 				activeProjectiles -= 1;

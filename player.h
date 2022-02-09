@@ -4,7 +4,6 @@
 
 #include "entity.h"
 #include "constants.h"
-#include "environment.h"
 
 namespace playerNS
 {

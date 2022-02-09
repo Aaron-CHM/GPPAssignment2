@@ -12,9 +12,6 @@ Projectile::Projectile()
 	spriteData.height = ProjectileNS::HEIGHT;
 	spriteData.x = ProjectileNS::X;                   // location on screen
 	spriteData.y = ProjectileNS::Y;
-	frameDelay = ProjectileNS::ANIMATION_DELAY;
-	startFrame = ProjectileNS::START_FRAME;     // first frame of ship animation
-	endFrame = ProjectileNS::END_FRAME;     // last frame of ship animation
 	spriteData.rect.bottom = ProjectileNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = ProjectileNS::WIDTH;
 	currentFrame = startFrame;

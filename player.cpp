@@ -48,36 +48,36 @@ void Player::update(float frameTime)
     Entity::update(frameTime);
 
 
-    if (input->isKeyDown(SHIP1_RIGHT_KEY))            // if move right
+    if (input->isKeyDown(SHIP1_RIGHT_KEY)) //move right
     {
         spriteData.x = spriteData.x + playerNS::SPEED;
     }
 
-    if (input->isKeyDown(SHIP1_LEFT_KEY))            // if move left
+    if (input->isKeyDown(SHIP1_LEFT_KEY)) //move left
     {
         spriteData.x = spriteData.x - playerNS::SPEED;
     }
 
-    if (input->isKeyDown(SHIP1_UP_KEY))            // if move up
+    if (input->isKeyDown(SHIP1_UP_KEY)) //move up
     {
         spriteData.y = spriteData.y - playerNS::SPEED;
     }
 
-    if (input->isKeyDown(SHIP1_DOWN_KEY))            // if move down
+    if (input->isKeyDown(SHIP1_DOWN_KEY)) //move down
     {
         spriteData.y = spriteData.y + playerNS::SPEED;
     }
 
 
-    if (spriteData.x > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    //if touching boundary      
-        spriteData.x = (boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH);
+    if (spriteData.x > GAME_WIDTH - playerNS::WIDTH) //right side      
+        spriteData.x = GAME_WIDTH - playerNS::WIDTH;
 
-    if (spriteData.x < boundaryEnvironmentNS::MIN_X)
-        spriteData.x = ((float)boundaryEnvironmentNS::MIN_X);
+    if (spriteData.x < playerNS::WIDTH) //left side
+        spriteData.x = playerNS::WIDTH;
 
-    if (spriteData.y > boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT)
-        spriteData.y = ((float)boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT);
-    if (spriteData.y < boundaryEnvironmentNS::MIN_Y)
-        spriteData.y = ((float)boundaryEnvironmentNS::MIN_Y);
+    if (spriteData.y > GAME_HEIGHT - playerNS::HEIGHT)
+        spriteData.y = GAME_HEIGHT - playerNS::HEIGHT;
+    if (spriteData.y < playerNS::HEIGHT)
+        spriteData.y = playerNS::HEIGHT;
 
 }

@@ -10,7 +10,6 @@
 #include "entity.h"
 #include "constants.h"
 #include "projectile.h"
-#include "environment.h"
 #include "player.h"
 
 namespace BossNS
@@ -56,7 +55,7 @@ public:
     void projectileInitialization(Projectile* projectile);
     void setupProjectile(Projectile* projectile, Player ship); //set up velocity + angle of projectiles
     void spawnProjectiles(Projectile* projectiles[], float frameTime, Player ship);  //spawn projectiles
-    void offScreen(Projectile* projectiles[]); //remove projectiles when offscreen
+    void offScreenProjectile(Projectile* projectiles[]); //remove projectiles when offscreen
     
     void updateWave(Projectile* projectiles[], float frameTime);
     void resetSpawn();

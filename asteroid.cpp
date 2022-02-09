@@ -33,24 +33,24 @@ void Asteroid::update(float frameTime)
 	spriteData.y += frameTime * velocity.y;         // move asteroid along Y
 
 	// Bounce off walls
-	if (spriteData.x > boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH)    // if hit right screen edge
+	if (spriteData.x > GAME_WIDTH - asteroidNS::WIDTH)    // if hit right screen edge
 	{
-		spriteData.x = (boundaryEnvironmentNS::MAX_X - boundaryEnvironmentNS::WIDTH);    // position at right screen edge
+		spriteData.x = GAME_WIDTH - asteroidNS::WIDTH;    // position at right screen edge
 		velocity.x = -velocity.x;                   // reverse X direction
 	}
-	else if (spriteData.x < boundaryEnvironmentNS::MIN_X)                    // else if hit left screen edge
+	else if (spriteData.x < 0)                    // else if hit left screen edge
 	{
-		spriteData.x = ((float)boundaryEnvironmentNS::MIN_X);                           // position at left screen edge
+		spriteData.x = 0;                           // position at left screen edge
 		velocity.x = -velocity.x;                   // reverse X direction
 	}
-	if (spriteData.y > boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT)  // if hit bottom screen edge
+	if (spriteData.y > GAME_HEIGHT - asteroidNS::HEIGHT)  // if hit bottom screen edge
 	{
-		spriteData.y = ((float)boundaryEnvironmentNS::MAX_Y - boundaryEnvironmentNS::HEIGHT);  // position at bottom screen edge
+		spriteData.y = GAME_HEIGHT - asteroidNS::HEIGHT;  // position at bottom screen edge
 		velocity.y = -velocity.y;                   // reverse Y direction
 	}
-	else if (spriteData.y < boundaryEnvironmentNS::MIN_Y)                    // else if hit top screen edge
+	else if (spriteData.y < 0)                    // else if hit top screen edge
 	{
-		spriteData.y = ((float)boundaryEnvironmentNS::MIN_Y);                           // position at top screen edge
+		spriteData.y = 0;                           // position at top screen edge
 		velocity.y = -velocity.y;                  // reverse Y direction
 	}
 

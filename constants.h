@@ -52,11 +52,6 @@ const char ENEMYSHIP2_LARGE_IMAGE[] = "pictures\\EnemyShip2_large.png";
 const char ENEMYPROJECTILE1_IMAGE[] = "pictures\\enemyProjectile1.png";
 const char ENEMYPROJECTILE2_IMAGE[] = "pictures\\enemyProjectile2.png";
 
-//ENVIRONMENT 
-const int FLOOR_ROW_LENGTH = 11;
-const int FLOOR_COLUMN_LENGTH = 11;
-const int CRATES_NEEDED = (8 * (FLOOR_ROW_LENGTH / 2 + 1));
-
 // key mappings
 const UCHAR ESC_KEY = VK_ESCAPE;   // Escape key
 const UCHAR ALT_KEY = VK_MENU;     // Alt key

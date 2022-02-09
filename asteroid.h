@@ -10,7 +10,6 @@
 #include "entity.h"
 #include "constants.h"
 #include "projectile.h"
-#include "environment.h"
 
 namespace asteroidNS
 {

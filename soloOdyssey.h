@@ -11,7 +11,6 @@
 #include "textureManager.h"
 #include "image.h"
 #include "player.h"
-#include "environment.h"
 #include "projectile.h"
 #include "textDX.h"
 #include "asteroid.h"
