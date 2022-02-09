@@ -53,7 +53,7 @@ void SoloOdyssey::initialize(Graphics* g, Game* gPtr)
     playerShip.setX(GAME_WIDTH / 2 - playerNS::WIDTH / 2); //Set ship to center 
     playerShip.setY(GAME_HEIGHT / 2 - playerNS::HEIGHT / 2); //Set ship to center 
 
-
+    stage1Setup();
 }
 
 //=============================================================================
@@ -61,14 +61,6 @@ void SoloOdyssey::initialize(Graphics* g, Game* gPtr)
 //=============================================================================
 int SoloOdyssey::update(float frameTime)
 {
-
-    if (playerShip.getHealth() <= 0)
-    {
-        projectiles[0]->clearProjectiles(projectiles);
-        boss.setTimer(0);
-        playerShip.setHealth(100);
-        return 1;
-    }
 
     playerShip.update(frameTime);
 
@@ -137,7 +129,9 @@ void SoloOdyssey::render()
 {
     graphics->spriteBegin();                // begin drawing sprites
 
+    boss.draw();
     //projectiles[0]->spawnProjectiles(projectiles); //error when no enemy to fire projectiles
+    
 
     playerShip.draw();                           // add ship to scene
     graphics->spriteEnd();                  // end drawing sprites
@@ -174,23 +168,24 @@ void SoloOdyssey::stage1Setup()
 {
     //initialise textures
     //boss texture
-    if (!bossTexture.initialize(graphics, ENEMYSHIP1_IMAGE))
+    if (!bossTexture.initialize(graphics, BOSS_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing boss texture"));
     //enemy projectile Textures
     if (!enemyProjectile1Texture.initialize(graphics, ENEMYPROJECTILE1_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing enemyprojectile1 texture"));
     if (!enemyProjectile2Texture.initialize(graphics, ENEMYPROJECTILE2_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing enemyprojectile2 texture"));
+    boss.setX(GAME_WIDTH / 2 - BossNS::WIDTH / 2); //Set boss to center
+    boss.setY(BossNS::HEIGHT); //Set boss to top 
 
     //asteroid textures
     if (!asteroidTexture.initialize(graphics, ASTEROID_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing asteroid textures"));
-
     //asteroid initialization
     if (!asteroid.initialize(gamePtr, asteroidNS::WIDTH, asteroidNS::HEIGHT, 0, &asteroidTexture))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing asteroid"));
-    asteroid.setX(GAME_WIDTH / 2 - GAME_WIDTH / 3);
-    asteroid.setY(GAME_HEIGHT / 3 - GAME_HEIGHT / 3);
+    asteroid.setX(GAME_WIDTH / 4);
+    asteroid.setY(GAME_HEIGHT / 4);
 
 }
 

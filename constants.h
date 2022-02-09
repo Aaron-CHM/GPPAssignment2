@@ -56,10 +56,15 @@ const char ENEMYPROJECTILE2_IMAGE[] = "pictures\\enemyProjectile2.png";
 const UCHAR ESC_KEY = VK_ESCAPE;   // Escape key
 const UCHAR ALT_KEY = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY = VK_RETURN;   // Enter key
-const UCHAR SHIP1_LEFT_KEY = VK_LEFT; // Left Arrow key
-const UCHAR SHIP1_RIGHT_KEY = VK_RIGHT; // Right Arrow key
-const UCHAR SHIP1_UP_KEY = VK_UP; // Up Arrow key
-const UCHAR SHIP1_DOWN_KEY = VK_DOWN; // Down Arrow key
 
+//const UCHAR SHIP1_LEFT_KEY = VK_LEFT; // Left Arrow key
+//const UCHAR SHIP1_RIGHT_KEY = VK_RIGHT; // Right Arrow key
+//const UCHAR SHIP1_UP_KEY = VK_UP; // Up Arrow key
+//const UCHAR SHIP1_DOWN_KEY = VK_DOWN; // Down Arrow key
+
+const UCHAR SHIP1_LEFT_KEY = 'A';
+const UCHAR SHIP1_RIGHT_KEY = 'D';
+const UCHAR SHIP1_UP_KEY = 'W';
+const UCHAR SHIP1_DOWN_KEY = ' S';
 
 #endif

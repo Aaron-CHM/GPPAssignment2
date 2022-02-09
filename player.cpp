@@ -47,7 +47,6 @@ void Player::update(float frameTime)
 {
     Entity::update(frameTime);
 
-
     if (input->isKeyDown(SHIP1_RIGHT_KEY)) //move right
     {
         spriteData.x = spriteData.x + playerNS::SPEED;
@@ -75,9 +74,10 @@ void Player::update(float frameTime)
     if (spriteData.x < playerNS::WIDTH) //left side
         spriteData.x = playerNS::WIDTH;
 
-    if (spriteData.y > GAME_HEIGHT - playerNS::HEIGHT)
+    if (spriteData.y > GAME_HEIGHT - playerNS::HEIGHT) //bottom
         spriteData.y = GAME_HEIGHT - playerNS::HEIGHT;
-    if (spriteData.y < playerNS::HEIGHT)
+
+    if (spriteData.y < playerNS::HEIGHT) //top
         spriteData.y = playerNS::HEIGHT;
 
 }
