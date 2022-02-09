@@ -32,7 +32,7 @@ protected:
     //LevelSelect* levelSelect;
     //GameOver* gameOver;
     //Menu* menu;
-    SoLoOdyssey* soloOdyssey;
+    SoloOdyssey* soloOdyssey;
     TextDX* text;
 
 public:

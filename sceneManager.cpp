@@ -6,7 +6,7 @@
 //=============================================================================
 SceneManager::SceneManager()
 {
-    soloOdyssey = new SoLoOdyssey();
+    soloOdyssey = new SoloOdyssey();
     text = new TextDX();     // DirectX fonts
     currentScene = Scene::gameScene; //Set game screen to be the current scene 
 }
@@ -49,7 +49,7 @@ void SceneManager::update()
 {
     switch (currentScene)
     {
-        soloOdyssey->setStage(SoLoOdyssey::Stage::level1);
+        soloOdyssey->setStage(SoloOdyssey::Stage::level1);
         soloOdyssey->stage1Setup();
         currentScene = Scene::gameScene;
 
