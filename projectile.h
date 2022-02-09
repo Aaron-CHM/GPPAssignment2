@@ -17,13 +17,15 @@ namespace ProjectileNS
     const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
     const int Y = GAME_HEIGHT / 4;
 
+    //projectile speed
+    const float PROJECTILE_EASY_SPEED = 1.0f;
+    const float PROJECTILE_MEDIUM_SPEED = 0.85f;
+    const float PROJECTILE_HARD_SPEED = 0.7f;
 
-    const float PROJECTILE_EASY_SPEED = 1.0f; //projectile speed rate 
-    const float PROJECTILE_MEDIUM_SPEED = 1.0f;
-    const float PROJECTILE_HARD_SPEED = 0.75f;
-    const float PROJECTILE_EASY_SPAWN = 0.25f; //projectile spawn rate
-    const float PROJECTILE_MEDIUM_SPAWN = 0.5f;
-    const float PROJECTILE_HARD_SPAWN = 0.75f;
+    //projectile firing rate
+    const float PROJECTILE_EASY_SPAWN = 0.75f;
+    const float PROJECTILE_MEDIUM_SPAWN = 1.0f;
+    const float PROJECTILE_HARD_SPAWN = 1.25f;
 
 }
 

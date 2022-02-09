@@ -27,7 +27,7 @@
 const char CLASS_NAME[] = "SpaceWar";
 const char GAME_TITLE[] = "So-Lo Odyssey";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH = 640;               // width of game in pixels
+const UINT GAME_WIDTH = 852;               // width of game in pixels
 const UINT GAME_HEIGHT = 480;               // height of game in pixels
 
 // game
